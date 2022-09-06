@@ -1,13 +1,27 @@
 import express from 'express';
 import 'dotenv/config';
 import mongoose from 'mongoose';
+import cors from 'cors';
+import cookieParser from 'cookie-parser';
+import { UI_ROOT_URI } from './config/config';
 
 const app = express();
 const port = process.env.PORT || 8080;
-app.use(express.json());
 
 // Routers
 const authRouter = require('./routes/auth.route');
+
+app.use(
+  cors({
+    // Sets Access-Control-Allow-Origin to the UI URI
+    // origin: UI_ROOT_URI,
+    // Sets Access-Control-Allow-Credentials to true
+    credentials: true,
+  })
+);
+
+app.use(express.json());
+app.use(cookieParser());
 
 app.use('/auth', authRouter);
 
