@@ -142,13 +142,8 @@ const AuthenticateGoogleUser = async (req: Request, res: Response) => {
       }
 
       if (!foundUser) {
-        // Create new user and save to MongoDB
-        const user = User.build({
-          email,
-          name,
-          token: signedToken
-        });
-
+        // create new user and save to MongoDB
+        const user = User.build({ email, name, token: signedToken });
         user.save();
 
         res.status(201).json({ 
@@ -165,8 +160,27 @@ const AuthenticateGoogleUser = async (req: Request, res: Response) => {
   }
 };
 
+const RevokeAccountController = async (req: Request, res: Response) => {
+  try {
+    const userId = req.params.user_id
+    const filter = { id: userId };
+    const update = { token: '' };
+    
+    let doc = await User.findOneAndUpdate(filter, update, {
+      new: true
+    });
+
+    res.status(200).send(doc);
+  } catch (error) {
+    console.log(error);
+    process.exit(1);
+  }
+  
+};
+
 export {
   GetLoginURLController,
   GetGoogleUser,
-  AuthenticateGoogleUser
+  AuthenticateGoogleUser,
+  RevokeAccountController
 }

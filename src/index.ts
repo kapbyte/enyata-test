@@ -3,7 +3,6 @@ import 'dotenv/config';
 import mongoose from 'mongoose';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
-import { UI_ROOT_URI } from './config/config';
 
 const app = express();
 const port = process.env.PORT || 8080;
@@ -26,7 +25,7 @@ app.use(cookieParser());
 app.use('/auth', authRouter);
 
 // Start server 
-const startServer = async () => {
+const main = async () => {
   try {
     await mongoose.connect(`${process.env.MONGO_URI}`);
     app.listen(port, () => {
@@ -38,4 +37,4 @@ const startServer = async () => {
   }
 };
 
-startServer();
+main();

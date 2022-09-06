@@ -7,6 +7,7 @@ interface UserAttrs {
   email: string;
   name: string;
   token: string;
+  createdDate?: Date;
 }
 
 // An interface that describes the properties that a User Model has
@@ -19,13 +20,15 @@ interface UserDoc extends mongoose.Document {
   email: string;
   name: string;
   token: string;
+  createdDate: Date;
 }
 
 const userSchema = new mongoose.Schema({
   email: { type: String },
   name: { type: String },
   token: { type: String },
-  subscription: { type: String, default: 'freemium' }
+  subscription: { type: String, default: 'freemium' },
+  createdDate: { type: Date, default: Date.now },
 });
 
 userSchema.statics.build = (attrs: UserAttrs) => {
