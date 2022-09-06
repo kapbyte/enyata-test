@@ -9,6 +9,7 @@ const port = process.env.PORT || 8080;
 
 // Routers
 const authRouter = require('./routes/auth.route');
+const blogRouter = require('./routes/blog.route');
 
 app.use(
   cors({
@@ -23,6 +24,7 @@ app.use(express.json());
 app.use(cookieParser());
 
 app.use('/auth', authRouter);
+app.use('/blog', blogRouter);
 
 // Start server 
 const main = async () => {

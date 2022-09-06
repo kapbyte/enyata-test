@@ -92,8 +92,7 @@ const GetGoogleUser = async (req: Request, res: Response) => {
 
   // Fetch the user's profile with the access token and bearer
   const googleUser = await axios
-    .get(
-      `https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=${access_token}`,
+    .get(`https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=${access_token}`,
       {
         headers: {
           Authorization: `Bearer ${id_token}`,
@@ -175,7 +174,6 @@ const RevokeAccountController = async (req: Request, res: Response) => {
     console.log(error);
     process.exit(1);
   }
-  
 };
 
 export {

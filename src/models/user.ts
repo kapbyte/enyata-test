@@ -1,5 +1,3 @@
-
-
 import mongoose from 'mongoose';
 
 // An interface that describes the properties required to create a new User

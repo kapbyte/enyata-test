@@ -1,0 +1,128 @@
+[
+    {
+        "name": "The Shawshank Redemption",
+        "year": "1994",
+        "tags": "freemium",
+        "read_count": 6,
+        "comments": [],
+        "likes": 2,
+        "shares": 1
+    },
+    {
+        "name": "The Godfather",
+        "year": "1972",
+        "tags": "freemium",
+        "read_count": 120,
+        "comments": [],
+        "likes": 34,
+        "shares": 29
+    },
+    {
+        "name": "The Dark Knight",
+        "year": "2008",
+        "tags": "freemium",
+        "read_count": 996,
+        "comments": [],
+        "likes": 304,
+        "shares": 101
+    },
+    {
+        "name": "Pulp Fiction",
+        "year": "1994",
+        "tags": "freemium",
+        "read_count": 45,
+        "comments": [],
+        "likes": 21,
+        "shares": 19
+    },
+    {
+        "name": "Forrest Gump",
+        "year": "1994",
+        "tags": "freemium",
+        "read_count": 102,
+        "comments": [],
+        "likes": 25,
+        "shares": 42
+    },
+    {
+        "name": "Fight Club",
+        "year": "1999",
+        "tags": "freemium",
+        "read_count": 32,
+        "comments": [],
+        "likes": 4,
+        "shares": 1
+    },
+    {
+        "name": "The Matrix",
+        "year": "1999",
+        "tags": "premium",
+        "read_count": 3028,
+        "comments": [],
+        "likes": 2482,
+        "shares": 1765
+    },
+    {
+        "name": "Goodfellas",
+        "year": "1990",
+        "tags": "freemium",
+        "read_count": 6,
+        "comments": [],
+        "likes": 2,
+        "shares": 1
+    },
+    {
+        "name": "Interstellar",
+        "year": "2014",
+        "tags": "freemium",
+        "read_count": 6,
+        "comments": [],
+        "likes": 2,
+        "shares": 1
+    },
+    {
+        "name": "Whiplash",
+        "year": "2014",
+        "tags": "freemium",
+        "read_count": 6,
+        "comments": [],
+        "likes": 2,
+        "shares": 1
+    },
+    {
+        "name": "Parasite",
+        "year": "2019",
+        "tags": "freemium",
+        "read_count": 63,
+        "comments": [],
+        "likes": 11,
+        "shares": 8
+    },
+    {
+        "name": "Spider-Man: Into the Spider-Verse",
+        "year": "2018",
+        "tags": "premium",
+        "read_count": 2308,
+        "comments": [],
+        "likes": 1026,
+        "shares": 827
+    },
+    {
+        "name": "Coco",
+        "year": "2020",
+        "tags": "premium",
+        "read_count": 981,
+        "comments": [],
+        "likes": 604,
+        "shares": 473
+    },
+    {
+        "name": "Your Name",
+        "year": "2016",
+        "tags": "freemium",
+        "read_count": 6,
+        "comments": [],
+        "likes": 2,
+        "shares": 1
+    }
+]
