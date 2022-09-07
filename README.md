@@ -33,3 +33,9 @@ Step 3: Start the API by
 ```bash
 npm start
 ```
+
+### API Usage
+
+**http://localhost:8080/auth/google/url**
+
+![Recordit GIF](http://g.recordit.co/Lkwa8jnhg3.gif)
