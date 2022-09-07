@@ -36,6 +36,28 @@ npm start
 
 ### API Usage
 
-**http://localhost:8080/auth/google/url**
+- OAuth 2.0 [API => GET(http://localhost:8080/auth/google/url)]
 
 ![Recordit GIF](http://g.recordit.co/Lkwa8jnhg3.gif)
+
+---
+
+- Revoke Auth [API => PATCH(http://localhost:8080/auth/revoke/:user_id)]  <br/>Note: Auth token granted when user singup/login is needed also with the user id.
+
+![Recordit GIF](http://g.recordit.co/Hbg7ksqU5x.gif)
+
+---
+
+- Blog post based on tags [API => GET(http://localhost:8080/blog/tags)]  <br/>Note: Auth token granted when user singup/login is needed, and also pass token to request header
+
+![Recordit GIF](http://g.recordit.co/abUk7281V1.gif)
+
+---
+
+
+## Author
+
+- [**Kelechi Chinaka**](https://kapbyte.netlify.app/)
+
+
+
