@@ -2,16 +2,18 @@ import { Request, Response } from 'express';
 import axios from 'axios';
 import jwt from 'jsonwebtoken';
 import { User } from '../models/user';
-// import { OAuth2Client, TokenPayload } from 'google-auth-library';
-// const GoogleClient = new OAuth2Client('1095239571775-plv65brugicj8fdf7e6neuekg8r5par3.apps.googleusercontent.com');
 import { 
   SERVER_ROOT_URI, 
   GOOGLE_CLIENT_ID, 
   GOOGLE_CLIENT_SECRET,
   COOKIE_NAME,
   JWT_SECRET,
+  JWT_TIME,
+  PREMIUM,
+  FREEMIUM
 } from '../config/config';
-import querystring from "querystring";
+import querystring from 'querystring';
+import { permissionRequestValidator } from '../helpers/request.validator';
 
 
 const redirectURI = "auth/google";
@@ -120,17 +122,16 @@ const GetGoogleUser = async (req: Request, res: Response) => {
 const AuthenticateGoogleUser = async (req: Request, res: Response) => {
   try {
     const decoded = jwt.verify(req.cookies[COOKIE_NAME], JWT_SECRET) as jwt.JwtPayload;
-    console.log("decoded :=> ", decoded);
 
     const { name, email, verified_email, id } = decoded;
 
     // user email has been verified
     if (verified_email) {
-      // Generate token
-      const signedToken = jwt.sign({ email, id }, JWT_SECRET, { expiresIn: '1d' });
 
       const foundUser = await User.findOne({ email });
       if (foundUser) {
+        const signedToken = jwt.sign({ email, id, access: foundUser.subscription }, JWT_SECRET, { expiresIn: JWT_TIME });
+
         // return login response token to client
         res.status(200).json({ 
           success: true, 
@@ -141,13 +142,15 @@ const AuthenticateGoogleUser = async (req: Request, res: Response) => {
       }
 
       if (!foundUser) {
+        const newUserSignedToken = jwt.sign({ email, id, access: FREEMIUM }, JWT_SECRET, { expiresIn: JWT_TIME });
+
         // create new user and save to MongoDB
-        const user = User.build({ email, name, token: signedToken });
+        const user = User.build({ email, name, token: newUserSignedToken });
         user.save();
 
         res.status(201).json({ 
           success: true,
-          token: signedToken,
+          token: newUserSignedToken,
           id: user._id, 
           message: 'User Registration Successful.'
         });
@@ -176,9 +179,59 @@ const RevokeAccountController = async (req: Request, res: Response) => {
   }
 };
 
+const AccessPermissionController = async (req: Request, res: Response) => {
+  try {
+    const { error } = permissionRequestValidator.validate(req.body);
+    if (error) {
+      return res.status(400).json({
+        success: false,
+        message: error.details[0].message
+      });
+    }
+
+    const userId = req.params.user_id
+    const filter = { id: userId };
+
+    const { subscription } = req.body;
+    if (subscription !== PREMIUM && subscription !== FREEMIUM) {
+      return res.status(400).json({
+        message: 'Please enter the correct permission access (premium | freemium)'
+      });
+    }
+
+    const authHeader = req.headers;
+    const userToken = authHeader['token'] as string;
+    
+    const decoded = jwt.verify(userToken, `${JWT_SECRET}`) as jwt.JwtPayload;
+    const { email, id } = decoded;
+
+    const updatedUserSignedToken = jwt.sign({ email, id, access: subscription }, JWT_SECRET, { expiresIn: JWT_TIME });
+
+    const update = { 
+      subscription: subscription, 
+      token: updatedUserSignedToken 
+    };
+    
+    let doc = await User.findOneAndUpdate(filter, update, {
+      new: true
+    });
+
+    res.status(200).json({ 
+      token: updatedUserSignedToken,
+      id: doc?._id,
+      email: doc?.email,
+      message: 'User token updated successfully.'
+    });
+  } catch (error) {
+    console.log(error);
+    process.exit(1);
+  }
+};
+
 export {
   GetLoginURLController,
   GetGoogleUser,
   AuthenticateGoogleUser,
-  RevokeAccountController
+  RevokeAccountController,
+  AccessPermissionController
 }

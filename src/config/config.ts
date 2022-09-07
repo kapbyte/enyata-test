@@ -3,4 +3,7 @@ export const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET || "GOCSPX-
 export const SERVER_ROOT_URI = "http://localhost:8080";
 export const UI_ROOT_URI = "http://localhost:3000";
 export const JWT_SECRET = "secret-key";
+export const JWT_TIME = "30m";
 export const COOKIE_NAME = "auth_token";
+export const PREMIUM = "premium";
+export const FREEMIUM = "freemium";

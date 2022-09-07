@@ -1,82 +1,36 @@
 import { Request, Response } from 'express';
+import jwt from 'jsonwebtoken';
 import { Blog } from '../models/blog';
 const blogItems = require("../config/blog.json");
-
-// const FetchBlogPostsController = async (req: Request, res: Response) => {
-  // try {
-  //   let { page, size } = req.query as any;
-
-    // if (!page) {
-    //   page = 1;
-    // }
-
-  //   if (!size) {
-  //     size = 10;
-  //   }
-
-  //   const limit = parseInt(size)
-  //   const skipIndex = (page - 1) * size;
-
-  //   const results = await Blog.find()
-  //     .limit(limit)
-  //     .skip(skipIndex)
-
-  //   // const userQuery = req.query.tags;
-
-  //   res.send({
-  //     page,
-  //     data: results
-  //   });
-  // } catch (error) {
-  //   console.log(error);
-  //   process.exit(1);
-  // }
-// };
-
-// const FetchPostsByTagsController = async (req: Request, res: Response) => {
-//   try {
-//     let { tags, page } = req.query as any;
-//     console.log('tags -> ', tags);
-
-//     let count = await Blog.countDocuments().exec();
-//     console.log('counter => ', count);
-
-//   //   const limit = 10;
-//   //   let results = {
-//   //     next: {}, previous: {}, results: {}
-//   //   };
-
-//   //   const startIndex = (page - 1) * limit
-//   //   const endIndex = page * limit;
-
-//   //   if (endIndex < await Blog.countDocuments().exec()) {
-//   //     results.next = {
-//   //       page: page + 1,
-//   //       limit: limit
-//   //     }
-//   //   }
-
-//   //   if (startIndex > 0) {
-//   //     results.previous = {
-//   //       page: page - 1,
-//   //       limit: limit
-//   //     }
-//   //   }
-
-//   //   try {
-//   //     results.results = await Blog.find().limit(limit).skip(startIndex).exec()
-//   //     res.send(results);
-//   //   } catch (e) {
-//   //     res.status(500).json({ message: e })
-//   //   }
-//   } catch (error) {
-//     res.status(501).json({ message: error });
-//   }
-// };
+import { 
+  JWT_SECRET,
+  PREMIUM,
+  FREEMIUM
+} from '../config/config';
 
 
 const FetchPostsByTagsController = async (req: Request, res: Response) => {
   let { page, tags } = req.query as any;
+
+  // check if tags is invalid, then prompt user to enter valid tag (premium | freemium)
+  if (tags !== PREMIUM && tags !== FREEMIUM) {
+    return res.status(400).json({
+      message: 'Please enter the correct permission access (premium | freemium)'
+    });
+  }
+
+  // fetch token and check if this user has permission to view premium contents.
+  const authHeader = req.headers;
+  const userToken = authHeader['token'] as string;
+  
+  const decoded = jwt.verify(userToken, `${JWT_SECRET}`) as jwt.JwtPayload;
+  const { access } = decoded;
+
+  if (access === FREEMIUM && tags === PREMIUM) {
+    return res.status(403).json({
+      message: 'You cannot access premium content. Pls update your subscription and try again.'
+    });
+  }
 
   if (!page) {
     page = 1;
@@ -129,6 +83,7 @@ const insertBlogPosts = async () => {
 insertBlogPosts()
   .then((docs) => console.log(docs))
   .catch((err) => console.log(err))
+
 
 export {
   FetchPostsByTagsController

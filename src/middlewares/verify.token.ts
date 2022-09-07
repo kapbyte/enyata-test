@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
+import { JWT_SECRET } from '../config/config';
 
 const verifyAuthToken = (req: Request, res: Response, next: NextFunction) => {
   const authHeader = req.headers.authorization;
@@ -14,8 +15,7 @@ const verifyAuthToken = (req: Request, res: Response, next: NextFunction) => {
 
   try {
     const token = authHeader.split(' ')[1];
-    const verified = jwt.verify(token, `${process.env.TOKEN_KEY}`);
-    console.log('verified -> ', verified);
+    const verified = jwt.verify(token, `${JWT_SECRET}`);
     next();
   } catch (error) {
     return res.status(401).json({

@@ -18,6 +18,7 @@ interface UserDoc extends mongoose.Document {
   email: string;
   name: string;
   token: string;
+  subscription: string;
   createdDate: Date;
 }
 
