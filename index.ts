@@ -8,13 +8,11 @@ const app = express();
 const port = process.env.PORT || 8080;
 
 // Routers
-const authRouter = require('./routes/auth.route');
-const blogRouter = require('./routes/blog.route');
+const authRouter = require('./src/routes/auth.route');
+const blogRouter = require('./src/routes/blog.route');
 
 app.use(
   cors({
-    // Sets Access-Control-Allow-Origin to the UI URI
-    // origin: UI_ROOT_URI,
     // Sets Access-Control-Allow-Credentials to true
     credentials: true,
   })
@@ -26,7 +24,7 @@ app.use(cookieParser());
 app.use('/auth', authRouter);
 app.use('/blog', blogRouter);
 
-// Start server 
+
 const main = async () => {
   try {
     await mongoose.connect(`${process.env.MONGO_URI}`);
