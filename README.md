@@ -17,7 +17,7 @@ It makes use of the **MVC pattern** i.e. Model View Controller.
 Step 1: Clone the repo
 
 ```bash
-git clone x
+git clone https://github.com/kapbyte/enyata-test.git
 ```
 
 Step 2: cd into the cloned repo and run:
@@ -26,8 +26,7 @@ Step 2: cd into the cloned repo and run:
 npm install
 ```
 
-Every project config is already in config folder, so you can quickly run the project. So don't worry about setting up a .env file :thumbsup:
-```
+:mega:  Every project config is already in config folder, so you can quickly run the project. So don't worry about setting up a .env file
 
 Step 3: Start the API by
 
