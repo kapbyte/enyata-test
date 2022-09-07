@@ -70,7 +70,7 @@ const FetchPostsByTagsController = async (req: Request, res: Response) => {
   }
 };
 
-
+// Upload data to mongoDB
 const insertBlogPosts = async () => {
   try {
     const docs = await Blog.insertMany(blogItems);

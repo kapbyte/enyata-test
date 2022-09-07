@@ -3,6 +3,7 @@ import 'dotenv/config';
 import mongoose from 'mongoose';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
+import { MONGO_URI } from './src/config/config'
 
 const app = express();
 const port = process.env.PORT || 8080;
@@ -27,7 +28,7 @@ app.use('/blog', blogRouter);
 
 const main = async () => {
   try {
-    await mongoose.connect(`${process.env.MONGO_URI}`);
+    await mongoose.connect(`${MONGO_URI}`);
     app.listen(port, () => {
       console.log(`Server listening on port: ${port}`);
     })

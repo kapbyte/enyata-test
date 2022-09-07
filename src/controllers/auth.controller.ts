@@ -172,7 +172,11 @@ const RevokeAccountController = async (req: Request, res: Response) => {
       new: true
     });
 
-    res.status(200).send(doc);
+    res.status(200).json({ 
+      id: doc?._id,
+      email: doc?.email,
+      message: 'Your token has been revoked, kindly login to get new token.'
+    });
   } catch (error) {
     console.log(error);
     process.exit(1);
